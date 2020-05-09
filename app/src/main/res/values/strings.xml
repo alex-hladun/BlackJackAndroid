@@ -43,5 +43,6 @@
     <string name="player_compare_win_text">"You Win $%3$d! %1$d over %2$d!"</string>
     <string name="player_tie_text">"Tie! You both have %1$d"</string>
     <string name="dealer_win_text">"You Lose! Dealer has %2$d over %1$d :("</string>
+    <string name="dealer_score_text">"%1$s"</string>
 
 </resources>

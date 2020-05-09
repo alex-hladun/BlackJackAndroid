@@ -53,6 +53,8 @@ class GameFragment : Fragment() {
         val posBetButton = view.findViewById<Button>(R.id.posChangeBet)
         val negBetButton = view.findViewById<Button>(R.id.negChangeBet)
         val playerInfoText = view.findViewById<TextView>(R.id.playerInfoText)
+        val dealerScoretext = view.findViewById<TextView>(R.id.dealerScoreText)
+        dealerScoretext.visibility = View.GONE
         val cardView = view.findViewById<ImageView>(R.id.cardView)
         val cardView2 = view.findViewById<ImageView>(R.id.cardView2)
         val cardView10 = view.findViewById<ImageView>(R.id.cardView10)
@@ -487,6 +489,7 @@ class GameFragment : Fragment() {
             doubleButton.visibility = View.GONE
             hitButton.visibility = View.GONE
             standButton.visibility = View.GONE
+
         }
 
         fun buttonDealMode() {
@@ -507,6 +510,7 @@ class GameFragment : Fragment() {
             dealerCardView8.animate().translationX(0f).translationY(0f).setDuration(1)
             dealerCardView9.animate().translationX(0f).translationY(0f).setDuration(1)
             dealerCardView10.animate().translationX(0f).translationY(0f).setDuration(1)
+            dealerScoretext.visibility = View.GONE
             dealButton.visibility = View.GONE
             dealerInfoText.visibility = View.GONE
             negBetButton.visibility = View.GONE
@@ -729,6 +733,9 @@ class GameFragment : Fragment() {
                     }
                 }
                 if (dealerHand.dealerbust) {
+//                    Adding next two lines to display dealers hand total
+                    dealerScoretext.visibility = View.VISIBLE
+                    dealerScoretext.text = getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
                     dealerInfoText.text =
                         getString(R.string.player_win_text,playerHand.betArray[x].toInt())
                     dealerInfoText.setBackgroundColor(ContextCompat.getColor(dealerInfoText.context,R.color.win_green))
@@ -739,6 +746,9 @@ class GameFragment : Fragment() {
                     continue
                 }
                 if (playerHand.handTotal[x].max()!! > dealerHand.handTotal[0].max()!!) {
+//                    Adding next two lines to display dealers hand total
+                    dealerScoretext.visibility = View.VISIBLE
+                    dealerScoretext.text = getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
 
 
                     dealerInfoText.text = getString(
@@ -752,6 +762,9 @@ class GameFragment : Fragment() {
                     resetButtons()
                     continue
                 } else if (playerHand.handTotal[x].max() == dealerHand.handTotal[0].max()) {
+                    //                    Adding next two lines to display dealers hand total
+                    dealerScoretext.visibility = View.VISIBLE
+                    dealerScoretext.text = getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
                     dealerInfoText.text = getString(
                         R.string.player_tie_text,
                         playerHand.handTotal[x].max()
@@ -762,6 +775,9 @@ class GameFragment : Fragment() {
                     resetButtons()
                     continue
                 } else {
+                    //                    Adding next two lines to display dealers hand total
+                    dealerScoretext.visibility = View.VISIBLE
+                    dealerScoretext.text = getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
                     dealerInfoText.text = getString(
                         R.string.dealer_win_text,
                         playerHand.handTotal[x].max(), dealerHand.handTotal[x].max()
@@ -1196,6 +1212,10 @@ open class Hand() {
         } else {
             this.handTotal[hn].add(this.handArray[hn][0].faceVal + this.handArray[hn][1].faceVal)
         }
+
+        for(x in this.handTotal[hn]) {
+            this.handTotal2[hn].add(x)
+        }
     }
 
     fun blackJackCheck(player: GameFragment, hn: Int) {
@@ -1287,7 +1307,9 @@ open class Hand() {
 
 
         val handTotal = mutableListOf<Int>()
+        this.handTotal2[0].clear()
         for (x in this.handTotal[0]) {
+            this.handTotal2[0].add(x)
             if (x <= 21) {
                 handTotal.add(x)
             }
