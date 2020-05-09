@@ -1,0 +1,429 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gameFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerInParent="true"
+    android:layout_margin="2sp"
+    android:layout_marginStart="2sp"
+    android:background="@android:color/holo_green_dark"
+    android:orientation="horizontal"
+    tools:context=".GameFragment">
+
+
+    <Button
+        android:id="@+id/posChangeBet"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/backgrounds"
+        android:text="@string/post_bet_value"
+        app:layout_constraintBottom_toTopOf="@+id/dealButton"
+        app:layout_constraintEnd_toEndOf="@+id/dealButton"
+        app:layout_constraintStart_toStartOf="@+id/dealButton"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <Button
+        android:id="@+id/hitButton"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/backgrounds"
+        android:text="@string/hit_button_text"
+        app:layout_constraintBottom_toTopOf="@+id/yourScoreText"
+        app:layout_constraintEnd_toEndOf="@+id/yourScoreText"
+        app:layout_constraintStart_toStartOf="@+id/yourScoreText"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <TextView
+        android:id="@+id/appTitle2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="@string/app_name"
+        android:textColor="@color/lb_browse_header_color"
+        android:textSize="30sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/yourScoreText"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:gravity="center"
+        android:text="@string/textView2"
+        android:textColor="@color/lb_browse_header_color"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.86" />
+
+    <Button
+        android:id="@+id/dealButton"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/backgrounds"
+        android:gravity="center"
+        android:text="@string/dealText"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.86" />
+
+    <Button
+        android:id="@+id/negChangeBet"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:background="@drawable/backgrounds"
+        android:text="@string/neg_bet_string"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/dealButton"
+        app:layout_constraintStart_toStartOf="@+id/dealButton"
+        app:layout_constraintTop_toBottomOf="@+id/dealButton"
+        app:layout_constraintVertical_bias="0" />
+
+
+    <Button
+        android:id="@+id/standButton"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/backgrounds"
+        android:text="@string/stand_button_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/yourScoreText"
+        app:layout_constraintStart_toStartOf="@+id/yourScoreText"
+        app:layout_constraintTop_toBottomOf="@+id/yourScoreText"
+        app:layout_constraintVertical_bias="0" />
+
+    <Button
+        android:id="@+id/splitButton"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/standButton"
+        android:layout_toStartOf="@+id/hitButton"
+        android:background="@drawable/backgrounds"
+        android:text="@string/split_button_text"
+        app:layout_constraintBottom_toBottomOf="@+id/yourScoreText"
+        app:layout_constraintEnd_toStartOf="@+id/yourScoreText"
+        app:layout_constraintHorizontal_bias="1"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hitButton" />
+
+
+    <Button
+        android:id="@+id/doubleButton"
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_above="@+id/standButton"
+        android:layout_toEndOf="@+id/hitButton"
+        android:background="@drawable/backgrounds"
+        android:text="@string/double_button_text"
+        app:layout_constraintBottom_toBottomOf="@+id/yourScoreText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0"
+        app:layout_constraintStart_toEndOf="@+id/yourScoreText" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="961dp" />
+
+
+    <TextView
+        android:id="@+id/betAmountText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/bet_amount_text"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/accountBalance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="32dp"
+        android:text="@string/account_balance"
+        android:textColor="#FFFFFF"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <TextView
+        android:id="@+id/playerInfoText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:text="@string/player_info_text"
+        android:textColor="#FFFFFF"
+        android:textSize="56sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintHorizontal_bias="0.16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.77" />
+
+    <ImageView
+        android:id="@+id/cardView"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:contentDescription="TODO"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/cardView2"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/cardView3"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/cardView4"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/cardView5"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/cardView6"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/cardView7"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/cardView8"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/cardView9"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/cardView10"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+
+    <ImageView
+        android:id="@+id/dealerCardView"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/dealerCardView2"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:rotationY="-180"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/dealerCardView3"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/dealerCardView4"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/dealerCardView5"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/dealerCardView6"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/dealerCardView7"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/dealerCardView8"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/dealerCardView9"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <ImageView
+        android:id="@+id/dealerCardView10"
+        android:layout_width="100dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="20dp"
+        android:alpha="0"
+        android:rotation="@dimen/card_rotation_start"
+        android:src="@drawable/gray_back"
+        app:layout_constraintBottom_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/guideline2" />
+
+    <TextView
+        android:id="@+id/dealerInfoText"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:background="@color/pressed_background"
+        android:gravity="center"
+        android:text="@string/dealer_info_text"
+        android:textColor="@color/lb_details_description_color"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="498dp" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

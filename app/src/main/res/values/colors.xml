@@ -1,0 +1,13 @@
+<resources>
+    <color name="background_gradient_start">#000000</color>
+    <color name="background_gradient_end">#DDDDDD</color>
+    <color name="fastlane_background">#0096a6</color>
+    <color name="search_opaque">#ffaa3f</color>
+    <color name="selected_background">#ffaa3f</color>
+    <color name="default_background">#3d3d3d</color>
+    <color name="pressed_background">#4E8A09</color>
+    <color name="focused_background">#FF8BC34A</color>
+    <color name="lose_red">#AA0202</color>
+    <color name="win_green">#017C06</color>
+    <color name="tie_yellow">#C1AD01</color>
+</resources>

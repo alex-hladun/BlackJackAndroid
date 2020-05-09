@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android">
+<!--<ConstraintSet android:id="@+id/start">-->
+<!--    <Constraint-->
+<!--        android:id="@+id/cardFade"-->
+<!--        android:layout_width="@dimen/"-->
+<!--</ConstraintSet>-->
+
+</MotionScene>

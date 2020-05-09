@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">BlackJackTV</string>
+    <string name="browse_title"><![CDATA[Videos by Your Company]]></string>
+    <string name="related_movies">Related Videos</string>
+    <string name="grid_view">Grid View</string>
+    <string name="error_fragment">Error Fragment</string>
+    <string name="personal_settings">Personal Settings</string>
+    <string name="watch_trailer_1">Watch trailer</string>
+    <string name="watch_trailer_2">FREE</string>
+    <string name="rent_1">Rent By Day</string>
+    <string name="rent_2">From $1.99</string>
+    <string name="buy_1">Buy and Own</string>
+    <string name="buy_2">AT $9.99</string>
+    <string name="movie">Movie</string>
+
+    <!-- Error messages -->
+    <string name="error_fragment_message">An error occurred</string>
+    <string name="dismiss_error">Dismiss</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="playGameText">Deal</string>
+    <string name="changeBetText">Change Bet</string>
+    <string name="changeBetButton">Change Bet Amount</string>
+    <string name="computer_score">Computer Score:</string>
+    <string name="textView2"></string>
+    <string name="test_play_button">Play (Test)</string>
+    <string name="hit_button_text">Hit</string>
+    <string name="stand_button_text">Stand</string>
+    <string name="double_button_text">Double</string>
+    <string name="split_button_text">Split</string>
+    <string name="dealText">Deal</string>
+    <string name="change_bet_text">Change Bet</string>
+    <string name="bet_amount_text">Current Bet: $%.0f%n</string>
+    <string name="neg_bet_string">- Bet</string>
+    <string name="post_bet_value">+ Bet</string>
+    <string name="account_balance">Account Balance: $%1$d</string>
+    <string name="blackjack_win_text">BlackJack!!! You win $%1$f</string>
+    <string name="dealer_info_text">Dealer: %1$s</string>
+    <string name="player_info_text">"%1$s"</string>
+    <string name="player_busted_text">"Busted! You lose $%1$d"</string>
+    <string name="player_win_text">"Dealer Busted! You win $%1$d"</string>
+    <string name="player_compare_win_text">"You Win $%3$d! %1$d over %2$d!"</string>
+    <string name="player_tie_text">"Tie! You both have %1$d"</string>
+    <string name="dealer_win_text">"You Lose! Dealer has %2$d over %1$d :("</string>
+
+</resources>
