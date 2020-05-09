@@ -869,7 +869,8 @@ class GameFragment : Fragment() {
                             )
                         )
                         dealerInfoText.visibility = View.VISIBLE
-                        playerInfoText.text = "Busted!"
+                        playerInfoText.text =
+                            getString(R.string.player_info_text, playerHand.handTotal2[0])
                         updateBalance()
                         resetButtons()
                     } else {
@@ -928,7 +929,7 @@ class GameFragment : Fragment() {
                         resetButtons()
                     } else {
                         playerInfoText.text =
-                            getString(R.string.player_info_text, playerHand.handTotal[0])
+                            getString(R.string.player_info_text, playerHand.handTotal2[0])
 //                    checkmove necessary to remove double button
                         playerHand.checkMove(this, 0)
                         addDealerCardImg(dealerHand)
@@ -1105,6 +1106,7 @@ class DeckOfCards() {
 
 open class Hand() {
     var handTotal = mutableListOf<MutableList<Int>>(mutableListOf<Int>())
+    var handTotal2 = mutableListOf<MutableList<Int>>(mutableListOf<Int>())
     var handArray = mutableListOf<MutableList<Card>>(mutableListOf<Card>())
     var betArray = mutableListOf<Float>()
     var moveCount = arrayListOf<Int>(0)
@@ -1128,6 +1130,7 @@ open class Hand() {
         this.moveCount[hn]++
     }
 
+
     fun checkHand(player: GameFragment, hn: Int) {
 //        """Calculates the hand score.
 //        Determine handtotal. if it has ace
@@ -1150,7 +1153,10 @@ open class Hand() {
 
 //        Re-creates hand total as a list, then moves to this.handTotal
         var handTotal = mutableListOf<Int>()
+        this.handTotal2[hn].clear()
         for (x in this.handTotal[hn]) {
+//            Second list for handtotals
+            this.handTotal2[hn].add(x)
             if (x <= 21) {
                 handTotal.add(x)
             }
