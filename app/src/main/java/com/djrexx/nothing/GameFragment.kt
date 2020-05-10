@@ -333,7 +333,6 @@ class GameFragment : Fragment() {
         val sequenceAnimator = AnimatorSet()
 
         fun animateDeal() {
-//            dealerCardView3.layout()
 //            sequenceAnimator.reverse()
             sequenceAnimator.playSequentially(card1Anim, card2Anim, card3Anim, card4Anim)
             sequenceAnimator.start()
@@ -637,38 +636,38 @@ class GameFragment : Fragment() {
             }
         }
 
-        fun addCardImg(playerHand: Hand) {
+        fun addCardImg(playerHand: Hand, hn : Int) {
             when (playerHand.handArray[0].size) {
                 3 -> {
-                    updateCardImg(playerHand, cardView3, 0, 2)
+                    updateCardImg(playerHand, cardView3, hn, 2)
                     cardView3.visibility = View.VISIBLE
                 }
                 4 -> {
-                    updateCardImg(playerHand, cardView4, 0, 3)
+                    updateCardImg(playerHand, cardView4, hn, 3)
                     cardView4.visibility = View.VISIBLE
                 }
                 5 -> {
-                    updateCardImg(playerHand, cardView5, 0, 4)
+                    updateCardImg(playerHand, cardView5, hn, 4)
                     cardView5.visibility = View.VISIBLE
                 }
                 6 -> {
-                    updateCardImg(playerHand, cardView6, 0, 5)
+                    updateCardImg(playerHand, cardView6, hn, 5)
                     cardView6.visibility = View.VISIBLE
                 }
                 7 -> {
-                    updateCardImg(playerHand, cardView7, 0, 6)
+                    updateCardImg(playerHand, cardView7, hn, 6)
                     cardView7.visibility = View.VISIBLE
                 }
                 8 -> {
-                    updateCardImg(playerHand, cardView8, 0, 7)
+                    updateCardImg(playerHand, cardView8, hn, 7)
                     cardView8.visibility = View.VISIBLE
                 }
                 9 -> {
-                    updateCardImg(playerHand, cardView9, 0, 8)
+                    updateCardImg(playerHand, cardView9, hn, 8)
                     cardView9.visibility = View.VISIBLE
                 }
                 10 -> {
-                    updateCardImg(playerHand, cardView10, 0, 9)
+                    updateCardImg(playerHand, cardView10, hn, 9)
                     cardView10.visibility = View.VISIBLE
                 }
             }
@@ -819,9 +818,96 @@ class GameFragment : Fragment() {
             }
         }
 
+        fun animateSplit() {
+            sequenceAnimator.reverse()
+            sequenceAnimator.start()
+        }
+
+        fun splitBetting(playerHand: Hand, deck: MutableList<Card>) {
+            for (x in 0 until (playerHand.handArray.size)) {
+                if (playerHand.moveCount[x] > 0) {
+                    continue
+                }
+                else {
+                    playerHand.initialize(x)
+                    playerInfoText.text = getString(R.string.player_info_text, playerHand.handTotal[x])
+                    updateCardImg(playerHand, cardView, x, 0)
+                    updateCardImg(playerHand, cardView2, x, 1)
+                    cardView2.visibility = View.VISIBLE
+//                    Need to put some sort of animation here to re-deal the cards.
+                    animateSplit()
+
+//                    playerHand.fullCallout(x)
+//                    playerHand.scoreCallout(x)
+                    playerHand.blackJackCheck(this,x)
+
+//                    In case player gets a blackjack, we want to skip
+                    playerHand.splitting = playerHand.moveCount[x] <= 0
+
+                    while (playerHand.splitting) {
+                        playerHand.checkMove(this,x)
+
+                        hitButton.setOnClickListener() { _ ->
+                            playerHand.hit(deck, x)
+                            playerHand.checkHand(this, x)
+                            addCardImg(playerHand, x)
+                            animatePlayerCard(playerHand)
+                            if (playerHand.handTotal[0].size == 0) {
+                                dealerInfoText.text = getString(
+                                    R.string.player_busted_text,
+                                    playerHand.betArray[0].toInt()
+                                )
+                                dealerInfoText.setBackgroundColor(
+                                    ContextCompat.getColor(
+                                        dealerInfoText.context,
+                                        R.color.lose_red
+                                    )
+                                )
+                                dealerInfoText.visibility = View.VISIBLE
+                                playerInfoText.text =
+                                    getString(R.string.player_info_text, playerHand.handTotal2[0])
+                                updateBalance()
+                                resetButtons()
+                            } else {
+                                playerInfoText.text =
+                                    getString(R.string.player_info_text, playerHand.handTotal[0])
+                                playerHand.checkMove(this, 0)
+                            }
+                        }
+
+                        if (playerHand.move == "h") {
+                            playerHand.hit(deck,x)
+                            playerHand.moveTick(x)
+//                            playerHand.callout(x)
+                            playerHand.checkHand(this, x )
+                            if (playerHand.handArray[x].size == 0) {
+                                playerHand.splitting = false
+                            }
+                        }
+                        else if (playerHand.move == "s") {
+                            playerHand.splitting = false
+                            playerHand.moveTick(x)
+                            continue
+                        }
+                        else if (playerHand.move == "d") {
+                            playerHand.double(deck,x)
+//                            playerHand.callout(x)
+                            playerHand.moveTick(x)
+                            playerHand.checkHand(this, x )
+                            playerHand.splitting = false
+                        }
+                        else if (playerHand.move == "sp") {
+                            playerHand.split(deck,x)
+                            splitBetting(playerHand,deck)
+                            splitBetting(playerHand,deck)
+                            splitBetting(playerHand,deck)
+                        }
+                    }
+                }
+            }
+        }
 
         fun play() {
-
             hideButtons()
             val deck = DeckOfCards().cardList
             deck.shuffle()
@@ -863,7 +949,7 @@ class GameFragment : Fragment() {
                 hitButton.setOnClickListener() { _ ->
                     playerHand.hit(deck, 0)
                     playerHand.checkHand(this, 0)
-                    addCardImg(playerHand)
+                    addCardImg(playerHand, 0)
                     animatePlayerCard(playerHand)
                     if (playerHand.handTotal[0].size == 0) {
                         dealerInfoText.text = getString(
@@ -886,7 +972,6 @@ class GameFragment : Fragment() {
                             getString(R.string.player_info_text, playerHand.handTotal[0])
                         playerHand.checkMove(this, 0)
                     }
-
                 }
 
                 val delayAnim2 = ObjectAnimator.ofFloat(dealerCardView, View.ALPHA, 1f).apply {
@@ -918,7 +1003,7 @@ class GameFragment : Fragment() {
 
                 doubleButton.setOnClickListener { _ ->
                     playerHand.double(deck, 0)
-                    addCardImg(playerHand)
+                    addCardImg(playerHand, 0)
                     animatePlayerCard(playerHand)
                     playerHand.checkHand(this, 0)
 //                checks for bust condition
@@ -933,6 +1018,9 @@ class GameFragment : Fragment() {
                                 R.color.lose_red
                             )
                         )
+                        dealerInfoText.visibility = View.VISIBLE
+                        playerInfoText.text =
+                            getString(R.string.player_info_text, playerHand.handTotal2[0])
                         updateBalance()
                         resetButtons()
                     } else {
@@ -942,6 +1030,7 @@ class GameFragment : Fragment() {
                         playerHand.checkMove(this, 0)
                         addDealerCardImg(dealerHand)
                         dealerHit(dealerHand, deck)
+//                        Starts Animation, which leads to compareTable function.
                         cardRotateAnim.start()
                     }
 //                adds and updates the image of the most recent card
@@ -955,6 +1044,11 @@ class GameFragment : Fragment() {
                 }
 
                 splitButton.setOnClickListener { _ ->
+                    playerHand.split(deck, 0)
+                    splitBetting(playerHand,deck)
+                    dealerHit(dealerHand,deck)
+//                    cardRotateAnim.start()
+
                 }
 
             }
@@ -967,54 +1061,7 @@ class GameFragment : Fragment() {
             play()
         }
 
-//        fun splitBetting(playerHand: Hand,deck: MutableList<Card>) {
-//
-//            for (x in 0 until (playerHand.handArray.size)) {
-//                if (playerHand.moveCount[x] > 0) {
-//                    continue
-//                }
-//                else {
-//                    playerHand.initialize(x)
-//                    playerHand.fullCallout(x)
-//                    playerHand.scoreCallout(x)
-//                    playerHand.blackJackCheck(this,x)
-//
-////                    In case player gets a blackjack, we want to skip
-//                    playerHand.splitting = playerHand.moveCount[x] <= 0
-//
-//                    while (playerHand.splitting) {
-//                        playerHand.checkMove(this,x)
-//                        if (playerHand.move == "h") {
-//                            playerHand.hit(deck,x)
-//                            playerHand.moveTick(x)
-//                            playerHand.callout(x)
-//                            playerHand.checkHand(this, x )
-//                            if (playerHand.handArray[x].size == 0) {
-//                                playerHand.splitting = false
-//                            }
-//                        }
-//                        else if (playerHand.move == "s") {
-//                            playerHand.splitting = false
-//                            playerHand.moveTick(x)
-//                            continue
-//                        }
-//                        else if (playerHand.move == "d") {
-//                            playerHand.double(deck,x)
-//                            playerHand.callout(x)
-//                            playerHand.moveTick(x)
-//                            playerHand.checkHand(this, x )
-//                            playerHand.splitting = false
-//                        }
-//                        else if (playerHand.move == "sp") {
-//                            playerHand.split(deck,x)
-//                            this.splitBetting(playerHand,deck)
-//                            this.splitBetting(playerHand,deck)
-//                            this.splitBetting(playerHand,deck)
-//                        }
-//                    }
-//                }
-//            }
-//        }
+
 
 //        fun compareTable(playerHand: Hand, dealerHand: Hand) {
 ////            compares the players hand(s) to the dealers hand
@@ -1329,7 +1376,7 @@ open class Hand() {
         this.handTotal.add(mutableListOf<Int>())
         this.moveCount.add(0)
         this.betArray.add(this.betArray[hn])
-        println("You have chosen to split!")
+//        println("You have chosen to split!")
         this.handArray.last().add(this.handArray[hn].removeAt(1))
         this.hit(deck, hn)
         this.hit(deck, this.handArray.size - 1)

@@ -23,6 +23,7 @@
     <string name="changeBetText">Change Bet</string>
     <string name="changeBetButton">Change Bet Amount</string>
     <string name="computer_score">Computer Score:</string>
+    <string name="textView2"></string>
     <string name="test_play_button">Play (Test)</string>
     <string name="hit_button_text">Hit</string>
     <string name="stand_button_text">Stand</string>
