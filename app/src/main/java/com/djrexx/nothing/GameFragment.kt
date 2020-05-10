@@ -387,7 +387,7 @@ class GameFragment : Fragment() {
         }
 
         fun animateDealerCard(dealerHand: Hand, delayAnim2:ObjectAnimator) {
-//            Shows the animation for individual dealing
+//            Shows the animation for the dealing of all dealer cards.
             val flipCard = PropertyValuesHolder.ofFloat(View.ROTATION_Y, 0f)
             val cardFlipAnim = ObjectAnimator.ofPropertyValuesHolder(dealerCardView2, flipCard)
             cardFlipAnim.duration = flipDuration
@@ -479,8 +479,6 @@ class GameFragment : Fragment() {
             }
         }
 
-
-
         fun resetButtons() {
             dealButton.visibility = View.VISIBLE
             negBetButton.visibility = View.VISIBLE
@@ -489,7 +487,6 @@ class GameFragment : Fragment() {
             doubleButton.visibility = View.GONE
             hitButton.visibility = View.GONE
             standButton.visibility = View.GONE
-
         }
 
         fun buttonDealMode() {
@@ -543,12 +540,12 @@ class GameFragment : Fragment() {
             accountBalance.text = newBalance
         }
 
-
         fun updateBetAmount() {
             val newBet = getString(R.string.bet_amount_text, bet)
             betAmount.text = newBet
         }
 
+//        Update the Balance. Update Bet Amount refreshes the bet amount on the screen .
         updateBetAmount()
         updateBalance()
 
@@ -752,9 +749,7 @@ class GameFragment : Fragment() {
 
 
                     dealerInfoText.text = getString(
-                        R.string.player_compare_win_text,
-                        playerHand.handTotal[x].max(), dealerHand.handTotal[x].max(), playerHand.betArray[x].toInt()
-                    )
+                        R.string.player_compare_win_text, playerHand.betArray[x].toInt())
                     dealerInfoText.setBackgroundColor(ContextCompat.getColor(dealerInfoText.context,R.color.win_green))
                     dealerInfoText.visibility = View.VISIBLE
                     this.balance += playerHand.betArray[x].toInt()
@@ -762,12 +757,11 @@ class GameFragment : Fragment() {
                     resetButtons()
                     continue
                 } else if (playerHand.handTotal[x].max() == dealerHand.handTotal[0].max()) {
-                    //                    Adding next two lines to display dealers hand total
+                    //   Adding next two lines to display dealers hand total
                     dealerScoretext.visibility = View.VISIBLE
                     dealerScoretext.text = getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
                     dealerInfoText.text = getString(
-                        R.string.player_tie_text,
-                        playerHand.handTotal[x].max()
+                        R.string.player_tie_text
                     )
                     dealerInfoText.setBackgroundColor(ContextCompat.getColor(dealerInfoText.context,R.color.tie_yellow))
                     dealerInfoText.visibility = View.VISIBLE
@@ -775,13 +769,11 @@ class GameFragment : Fragment() {
                     resetButtons()
                     continue
                 } else {
-                    //                    Adding next two lines to display dealers hand total
+                    // Adding next two lines to display dealers hand total
                     dealerScoretext.visibility = View.VISIBLE
                     dealerScoretext.text = getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
                     dealerInfoText.text = getString(
-                        R.string.dealer_win_text,
-                        playerHand.handTotal[x].max(), dealerHand.handTotal[x].max()
-                    )
+                        R.string.dealer_win_text, playerHand.betArray[x].toInt())
                     dealerInfoText.setBackgroundColor(ContextCompat.getColor(dealerInfoText.context,R.color.lose_red))
                     dealerInfoText.visibility = View.VISIBLE
                     this.balance -= playerHand.betArray[x].toInt()
@@ -897,9 +889,9 @@ class GameFragment : Fragment() {
 
                 }
 
-//               Adds and updates the image of the most recent card
                 val delayAnim2 = ObjectAnimator.ofFloat(dealerCardView, View.ALPHA, 1f).apply {
 //                    The delay animation that is added after all the dealer cards are flipped.
+//                    After it runs, it compares the table.
                     duration = 100
                     addListener(object: AnimatorListenerAdapter() {
                         override fun onAnimationEnd(animation: Animator?) {
