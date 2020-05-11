@@ -1,17 +1,15 @@
 package com.djrexx.nothing
 
 import android.animation.*
-import android.content.Context
 import android.os.Bundle
-import android.renderscript.Sampler
 import android.view.*
 import androidx.fragment.app.Fragment
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.animation.addListener
 import androidx.core.content.ContextCompat
 import kotlinx.android.synthetic.main.fragment_game.*
-import org.w3c.dom.Text
 
 
 class GameFragment : Fragment() {
@@ -25,7 +23,7 @@ class GameFragment : Fragment() {
     var shiftX = 32f
     var shiftY = 16f
     var animDuration = 250L
-    var animDurationRV = 250L
+    var animDurationRV = 100L
     var dealerAnimDuration = 400L
     var flipDuration = 125L
 
@@ -53,6 +51,7 @@ class GameFragment : Fragment() {
         val posBetButton = view.findViewById<Button>(R.id.posChangeBet)
         val negBetButton = view.findViewById<Button>(R.id.negChangeBet)
         val playerInfoText = view.findViewById<TextView>(R.id.playerInfoText)
+        val splitInfoText = view.findViewById<TextView>(R.id.splttingInfoText)
         val dealerScoretext = view.findViewById<TextView>(R.id.dealerScoreText)
         dealerScoretext.visibility = View.GONE
         val cardView = view.findViewById<ImageView>(R.id.cardView)
@@ -159,46 +158,48 @@ class GameFragment : Fragment() {
         val translateXAnimationDealer10 =
             PropertyValuesHolder.ofFloat(View.TRANSLATION_X, initDealerCardX + 9 * shiftX)
 
-        val translateYAnimationRV = PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -initPlayerCardY)
-        val translateXAnimationRV = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -initPlayerCardX)
+        val translateYAnimationRV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -initPlayerCardY)
+        val translateXAnimationRV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -initPlayerCardX)
         val rotateAnimationRV = PropertyValuesHolder.ofFloat(View.ROTATION, -160f)
         val alphaAnimationRV = PropertyValuesHolder.ofFloat(View.ALPHA, 0f)
         val translateYAnimation2RV =
             PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -initPlayerCardY - shiftY)
         val translateXAnimation2RV =
             PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -initPlayerCardX - shiftX)
-//        val translateYAnimation3 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, initPlayerCardY + 2 * shiftY)
-//        val translateXAnimation3 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, initPlayerCardX + 2 * shiftX)
-//        val translateYAnimation4 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, initPlayerCardY + 3 * shiftY)
-//        val translateXAnimation4 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, initPlayerCardX + 3 * shiftX)
-//        val translateYAnimation5 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, initPlayerCardY + 4 * shiftY)
-//        val translateXAnimation5 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, initPlayerCardX + 4 * shiftX)
-//        val translateYAnimation6 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, initPlayerCardY + 5 * shiftY)
-//        val translateXAnimation6 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, initPlayerCardX + 5 * shiftX)
-//        val translateYAnimation7 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, initPlayerCardY + 6 * shiftY)
-//        val translateXAnimation7 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, initPlayerCardX + 6 * shiftX)
-//        val translateYAnimation8 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, initPlayerCardY + 7 * shiftY)
-//        val translateXAnimation8 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, initPlayerCardX + 7 * shiftX)
-//        val translateYAnimation9 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, initPlayerCardY + 8 * shiftY)
-//        val translateXAnimation9 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, initPlayerCardX + 8 * shiftX)
-//        val translateYAnimation10 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, initPlayerCardY + 9 * shiftY)
-//        val translateXAnimation10 =
-//            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, initPlayerCardX + 9 * shiftX)
+        val translateYAnimation3RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -initPlayerCardY - 2 * shiftY)
+        val translateXAnimation3RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -initPlayerCardX - 2 * shiftX)
+        val translateYAnimation4RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -initPlayerCardY - 3 * shiftY)
+        val translateXAnimation4RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -initPlayerCardX - 3 * shiftX)
+        val translateYAnimation5RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -initPlayerCardY - 4 * shiftY)
+        val translateXAnimation5RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -initPlayerCardX - 4 * shiftX)
+        val translateYAnimation6RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -initPlayerCardY - 5 * shiftY)
+        val translateXAnimation6RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -initPlayerCardX - 5 * shiftX)
+        val translateYAnimation7RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -initPlayerCardY - 6 * shiftY)
+        val translateXAnimation7RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -initPlayerCardX - 6 * shiftX)
+        val translateYAnimation8RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -initPlayerCardY - 7 * shiftY)
+        val translateXAnimation8RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -initPlayerCardX - 7 * shiftX)
+        val translateYAnimation9RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -initPlayerCardY - 8 * shiftY)
+        val translateXAnimation9RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -initPlayerCardX - 8 * shiftX)
+        val translateYAnimation10RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, -initPlayerCardY - 9 * shiftY)
+        val translateXAnimation10RV =
+            PropertyValuesHolder.ofFloat(View.TRANSLATION_X, -initPlayerCardX - 9 * shiftX)
 
         val flipCard = PropertyValuesHolder.ofFloat(View.ROTATION_Y, 0f)
         val cardFlipAnim = ObjectAnimator.ofPropertyValuesHolder(dealerCardView2, flipCard)
@@ -218,14 +219,7 @@ class GameFragment : Fragment() {
         )
         card1Anim.duration = animDuration
 
-        val card1AnimRV = ObjectAnimator.ofPropertyValuesHolder(
-            cardView,
-            translateXAnimationRV,
-            translateYAnimationRV,
-            rotateAnimationRV,
-            alphaAnimationRV
-        )
-        card1AnimRV.duration = animDurationRV
+
 
         val card2Anim = ObjectAnimator.ofPropertyValuesHolder(
             dealerCardView,
@@ -262,6 +256,7 @@ class GameFragment : Fragment() {
             alphaAnimation
         )
         card4Anim.duration = animDuration
+
         val card5Anim = ObjectAnimator.ofPropertyValuesHolder(
             cardView3,
             translateXAnimation3,
@@ -326,6 +321,74 @@ class GameFragment : Fragment() {
             alphaAnimation
         )
         card12Anim.duration = animDuration
+
+        //BEGINNING OF THE REVERSE ANIMATIONS
+        val card5AnimRV = ObjectAnimator.ofPropertyValuesHolder(
+            cardView3,
+            translateXAnimation3RV,
+            translateYAnimation3RV,
+            rotateAnimationRV,
+            alphaAnimationRV
+        )
+        card5AnimRV.duration = animDurationRV
+        val card6AnimRV = ObjectAnimator.ofPropertyValuesHolder(
+            cardView4,
+            translateXAnimation4RV,
+            translateYAnimation4RV,
+            rotateAnimationRV,
+            alphaAnimationRV
+        )
+        card6AnimRV.duration = animDurationRV
+
+        val card7AnimRV = ObjectAnimator.ofPropertyValuesHolder(
+            cardView5,
+            translateXAnimation5RV,
+            translateYAnimation5RV,
+            rotateAnimationRV,
+            alphaAnimationRV
+        )
+        card7AnimRV.duration = animDurationRV
+        val card8AnimRV = ObjectAnimator.ofPropertyValuesHolder(
+            cardView6,
+            translateXAnimation6RV,
+            translateYAnimation6RV,
+            rotateAnimationRV,
+            alphaAnimationRV
+        )
+        card8AnimRV.duration = animDurationRV
+        val card9AnimRV = ObjectAnimator.ofPropertyValuesHolder(
+            cardView7,
+            translateXAnimation7RV,
+            translateYAnimation7RV,
+            rotateAnimationRV,
+            alphaAnimationRV
+        )
+        card9AnimRV.duration = animDurationRV
+        val card10AnimRV = ObjectAnimator.ofPropertyValuesHolder(
+            cardView8,
+            translateXAnimation8RV,
+            translateYAnimation8RV,
+            rotateAnimationRV,
+            alphaAnimationRV
+        )
+        card10AnimRV.duration = animDurationRV
+        val card11AnimRV = ObjectAnimator.ofPropertyValuesHolder(
+            cardView9,
+            translateXAnimation9RV,
+            translateYAnimation9RV,
+            rotateAnimationRV,
+            alphaAnimationRV
+        )
+        card11AnimRV.duration = animDurationRV
+        val card12AnimRV = ObjectAnimator.ofPropertyValuesHolder(
+            cardView10,
+            translateXAnimation10RV,
+            translateYAnimation10RV,
+            rotateAnimationRV,
+            alphaAnimationRV
+        )
+        card12AnimRV.duration = animDurationRV
+
         val card13Anim = ObjectAnimator.ofPropertyValuesHolder(
             dealerCardView3,
             translateXAnimationDealer3,
@@ -400,8 +463,14 @@ class GameFragment : Fragment() {
             sequenceAnimator.start()
         }
 
+        fun animateBothPlayerCard() {
+            val playerAnimator = AnimatorSet()
+            playerAnimator.playSequentially(card1Anim, card3Anim)
+            playerAnimator.start()
+        }
 
-        fun animatePlayerCard(playerHand: Hand, hn: Int, reverse : Boolean) {
+
+        fun animatePlayerCard(playerHand: Hand, hn: Int, reverse: Boolean) {
 //            Animates the single card that needs to be added to the player hand.
             var playerCardCount = playerHand.handArray[hn].size
             when (playerCardCount) {
@@ -453,66 +522,8 @@ class GameFragment : Fragment() {
             }
         }
 
-        fun animatePlayerCardRV(playerHand: Hand, hn: Int, reverseCount: Int) {
-//            Reverse-Animate the single card that needs to be added to the player hand.
-//            var playerCardCount = playerHand.handArray[hn].size
-            when (reverseCount) {
-//                1 & 2 generally not used
-                1 -> {
-                    val playerAnimator = AnimatorSet()
-                    playerAnimator.playSequentially(card3AnimRV)
-                    playerAnimator.start()
-                }
-                2 -> {
-                    val playerAnimator = AnimatorSet()
-                    playerAnimator.playSequentially(card1AnimRV, card3AnimRV)
-                    playerAnimator.start()
-                }
 
-                3 -> {
-                    val playerAnimator = AnimatorSet()
-                    playerAnimator.playSequentially(card5Anim)
-                    playerAnimator.start()
-                }
-                4 -> {
-                    val playerAnimator = AnimatorSet()
-                    playerAnimator.playSequentially(card6Anim)
-                    playerAnimator.start()
-                }
-                5 -> {
-                    val playerAnimator = AnimatorSet()
-                    playerAnimator.playSequentially(card7Anim)
-                    playerAnimator.start()
-                }
-                6 -> {
-                    val playerAnimator = AnimatorSet()
-                    playerAnimator.playSequentially(card8Anim)
-                    playerAnimator.start()
-                }
-                7 -> {
-                    val playerAnimator = AnimatorSet()
-                    playerAnimator.playSequentially(card9Anim)
-                    playerAnimator.start()
-                }
-                8 -> {
-                    val playerAnimator = AnimatorSet()
-                    playerAnimator.playSequentially(card10Anim)
-                    playerAnimator.start()
-                }
-                9 -> {
-                    val playerAnimator = AnimatorSet()
-                    playerAnimator.playSequentially(card11Anim)
-                    playerAnimator.start()
-                }
-                10 -> {
-                    val playerAnimator = AnimatorSet()
-                    playerAnimator.playSequentially(card12Anim)
-                    playerAnimator.start()
-                }
-            }
-        }
-
-        fun animateDealerCard(dealerHand: Hand, delayAnim2:ObjectAnimator) {
+        fun animateDealerCard(dealerHand: Hand, delayAnim2: ObjectAnimator) {
 //            Shows the animation for the dealing of all dealer cards.
             val flipCard = PropertyValuesHolder.ofFloat(View.ROTATION_Y, 0f)
             val cardFlipAnim = ObjectAnimator.ofPropertyValuesHolder(dealerCardView2, flipCard)
@@ -535,17 +546,37 @@ class GameFragment : Fragment() {
                 }
                 4 -> {
                     val dealerAnimator = AnimatorSet()
-                    dealerAnimator.playSequentially(cardFlipAnim, delayAnim, card13Anim, card14Anim, delayAnim2)
+                    dealerAnimator.playSequentially(
+                        cardFlipAnim,
+                        delayAnim,
+                        card13Anim,
+                        card14Anim,
+                        delayAnim2
+                    )
                     dealerAnimator.start()
                 }
                 5 -> {
                     val dealerAnimator = AnimatorSet()
-                    dealerAnimator.playSequentially(cardFlipAnim,delayAnim, card13Anim, card14Anim, card15Anim, delayAnim2)
+                    dealerAnimator.playSequentially(
+                        cardFlipAnim,
+                        delayAnim,
+                        card13Anim,
+                        card14Anim,
+                        card15Anim,
+                        delayAnim2
+                    )
                     dealerAnimator.start()
                 }
                 6 -> {
                     val dealerAnimator = AnimatorSet()
-                    dealerAnimator.playSequentially(cardFlipAnim, card13Anim, card14Anim, card15Anim, card16Anim, delayAnim2)
+                    dealerAnimator.playSequentially(
+                        cardFlipAnim,
+                        card13Anim,
+                        card14Anim,
+                        card15Anim,
+                        card16Anim,
+                        delayAnim2
+                    )
                     dealerAnimator.start()
                 }
                 7 -> {
@@ -613,6 +644,7 @@ class GameFragment : Fragment() {
             doubleButton.visibility = View.GONE
             hitButton.visibility = View.GONE
             standButton.visibility = View.GONE
+            splitInfoText.visibility = View.GONE
         }
 
         fun buttonDealMode() {
@@ -634,6 +666,7 @@ class GameFragment : Fragment() {
             dealerCardView9.animate().translationX(0f).translationY(0f).setDuration(1)
             dealerCardView10.animate().translationX(0f).translationY(0f).setDuration(1)
             dealerScoretext.visibility = View.GONE
+            splitInfoText.visibility = View.GONE
             dealButton.visibility = View.GONE
             dealerInfoText.visibility = View.GONE
             negBetButton.visibility = View.GONE
@@ -763,8 +796,8 @@ class GameFragment : Fragment() {
             }
         }
 
-        fun addCardImg(playerHand: Hand, hn : Int) {
-            when (playerHand.handArray[0].size) {
+        fun addCardImg(playerHand: Hand, hn: Int) {
+            when (playerHand.handArray[hn].size) {
                 3 -> {
                     updateCardImg(playerHand, cardView3, hn, 2)
                     cardView3.visibility = View.VISIBLE
@@ -858,10 +891,16 @@ class GameFragment : Fragment() {
                 if (dealerHand.dealerbust) {
 //                    Adding next two lines to display dealers hand total
                     dealerScoretext.visibility = View.VISIBLE
-                    dealerScoretext.text = getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
+                    dealerScoretext.text =
+                        getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
                     dealerInfoText.text =
-                        getString(R.string.player_win_text,playerHand.betArray[x].toInt())
-                    dealerInfoText.setBackgroundColor(ContextCompat.getColor(dealerInfoText.context,R.color.win_green))
+                        getString(R.string.player_win_text, playerHand.betArray[x].toInt())
+                    dealerInfoText.setBackgroundColor(
+                        ContextCompat.getColor(
+                            dealerInfoText.context,
+                            R.color.win_green
+                        )
+                    )
                     dealerInfoText.visibility = View.VISIBLE
                     this.balance += playerHand.betArray[x].toInt()
                     updateBalance()
@@ -871,12 +910,19 @@ class GameFragment : Fragment() {
                 if (playerHand.handTotal[x].max()!! > dealerHand.handTotal[0].max()!!) {
 //                    Adding next two lines to display dealers hand total
                     dealerScoretext.visibility = View.VISIBLE
-                    dealerScoretext.text = getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
+                    dealerScoretext.text =
+                        getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
 
 
                     dealerInfoText.text = getString(
-                        R.string.player_compare_win_text, playerHand.betArray[x].toInt())
-                    dealerInfoText.setBackgroundColor(ContextCompat.getColor(dealerInfoText.context,R.color.win_green))
+                        R.string.player_compare_win_text, playerHand.betArray[x].toInt()
+                    )
+                    dealerInfoText.setBackgroundColor(
+                        ContextCompat.getColor(
+                            dealerInfoText.context,
+                            R.color.win_green
+                        )
+                    )
                     dealerInfoText.visibility = View.VISIBLE
                     this.balance += playerHand.betArray[x].toInt()
                     updateBalance()
@@ -885,11 +931,17 @@ class GameFragment : Fragment() {
                 } else if (playerHand.handTotal[x].max() == dealerHand.handTotal[0].max()) {
                     //   Adding next two lines to display dealers hand total
                     dealerScoretext.visibility = View.VISIBLE
-                    dealerScoretext.text = getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
+                    dealerScoretext.text =
+                        getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
                     dealerInfoText.text = getString(
                         R.string.player_tie_text
                     )
-                    dealerInfoText.setBackgroundColor(ContextCompat.getColor(dealerInfoText.context,R.color.tie_yellow))
+                    dealerInfoText.setBackgroundColor(
+                        ContextCompat.getColor(
+                            dealerInfoText.context,
+                            R.color.tie_yellow
+                        )
+                    )
                     dealerInfoText.visibility = View.VISIBLE
                     updateBalance()
                     resetButtons()
@@ -897,10 +949,17 @@ class GameFragment : Fragment() {
                 } else {
                     // Adding next two lines to display dealers hand total
                     dealerScoretext.visibility = View.VISIBLE
-                    dealerScoretext.text = getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
+                    dealerScoretext.text =
+                        getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
                     dealerInfoText.text = getString(
-                        R.string.dealer_win_text, playerHand.betArray[x].toInt())
-                    dealerInfoText.setBackgroundColor(ContextCompat.getColor(dealerInfoText.context,R.color.lose_red))
+                        R.string.dealer_win_text, playerHand.betArray[x].toInt()
+                    )
+                    dealerInfoText.setBackgroundColor(
+                        ContextCompat.getColor(
+                            dealerInfoText.context,
+                            R.color.lose_red
+                        )
+                    )
                     dealerInfoText.visibility = View.VISIBLE
                     this.balance -= playerHand.betArray[x].toInt()
                     updateBalance()
@@ -951,7 +1010,7 @@ class GameFragment : Fragment() {
 
         fun splitBetting(playerHand: Hand, deck: MutableList<Card>) {
 
-            }
+        }
 
 
         fun play() {
@@ -979,9 +1038,14 @@ class GameFragment : Fragment() {
                 dealingTable = true
             } else {
                 dealerInfoText.text = getString(
-                    R.string.blackjack_win_text,(1.5*bet).toFloat()
+                    R.string.blackjack_win_text, (1.5 * bet).toFloat()
                 )
-                dealerInfoText.setBackgroundColor(ContextCompat.getColor(dealerInfoText.context,R.color.win_green))
+                dealerInfoText.setBackgroundColor(
+                    ContextCompat.getColor(
+                        dealerInfoText.context,
+                        R.color.win_green
+                    )
+                )
                 dealerInfoText.visibility = View.VISIBLE
                 dealingTable = false
                 balance = ((balance + bet * 1.5).toInt())
@@ -990,28 +1054,219 @@ class GameFragment : Fragment() {
             }
 
             if (dealingTable) {
-                if (hN < (playerHand.handArray.size) + 1) {
-                        //            Checks what moves are possible & Updates the buttons displayed to the user
-                        playerHand.checkMove(this, 0)
+                //            Checks what moves are possible & Updates the buttons displayed to the user
+                playerHand.checkMove(this, 0)
 
-                    fun splitButtonClick(hN : Int) {
-                        if (hN == 0) {
-                            animatePlayerCardRV(playerHand, hN, 1)
-                        } else {
-                            animatePlayerCardRV(playerHand, hN, 2)
+                val delayAnim2 = ObjectAnimator.ofFloat(dealerCardView, View.ALPHA, 1f).apply {
+//                    The delay animation that is added after all the dealer cards are flipped.
+//                    After it runs, it compares the table.
+                    duration = 100
+                    addListener(object : AnimatorListenerAdapter() {
+                        override fun onAnimationEnd(animation: Animator?) {
+                            super.onAnimationEnd(animation)
+                            compareTable(playerHand, dealerHand)
                         }
-                        playerHand.split(deck, hN)
-                        if (hN < (playerHand.handArray.size)) {
-                            if (playerHand.moveCount[hN] > 0) {
+                    })
+                }
 
-                            } else {
-                                playerHand.initialize(hN)
-                                playerInfoText.text =
-                                    getString(R.string.player_info_text, playerHand.handTotal[hN])
-                                updateCardImg(playerHand, cardView, hN, 0)
-                                updateCardImg(playerHand, cardView2, hN, 1)
-                                cardView2.visibility = View.VISIBLE
-                                animatePlayerCard(playerHand,hN,false)
+
+
+                val card1AnimRV = ObjectAnimator.ofPropertyValuesHolder(
+                    cardView,
+                    translateXAnimationRV,
+                    translateYAnimationRV,
+                    rotateAnimationRV,
+                    alphaAnimationRV
+                )
+                card1AnimRV.duration = animDurationRV
+
+                //            Reverse-Animate the single card that needs to be added to the player hand.
+                card1AnimRV.addListener(object : AnimatorListenerAdapter() {
+                    override fun onAnimationEnd(animation: Animator?) {
+                        // TODO: Figure out why this is crashing it every time
+                        playerHand.initialize(hN)
+                        playerInfoText.text =
+                            getString(R.string.player_info_text, playerHand.handTotal[hN])
+                        splitInfoText.text =
+                            getString(
+                                R.string.splitting_info_text,
+                                hN + 1,
+                                playerHand.handArray.size
+                            )
+                        updateCardImg(playerHand, cardView, hN, 0)
+                        updateCardImg(playerHand, cardView2, hN, 1)
+                        animateBothPlayerCard()
+                    }
+                })
+
+                fun animatePlayerCardRV(playerHand: Hand, hn: Int, reverseCount: Int) {
+
+                    when (reverseCount) {
+                        1 -> {
+                            val playerAnimator2 = AnimatorSet()
+                            playerAnimator2.playSequentially(card3AnimRV)
+                            playerAnimator2.start()
+                        }
+                        2 -> {
+                            val playerAnimator = AnimatorSet()
+                            playerAnimator.playSequentially(card3AnimRV, card1AnimRV)
+                            playerAnimator.start()
+                        }
+
+                        3 -> {
+                            val playerAnimator = AnimatorSet()
+                            playerAnimator.playSequentially(card5AnimRV, card3AnimRV, card1AnimRV)
+                            playerAnimator.start()
+                        }
+                        4 -> {
+                            val playerAnimator = AnimatorSet()
+                            playerAnimator.playSequentially(
+                                card6AnimRV,
+                                card5AnimRV,
+                                card3AnimRV,
+                                card1AnimRV
+                            )
+                            playerAnimator.start()
+                        }
+                        5 -> {
+                            val playerAnimator = AnimatorSet()
+                            playerAnimator.playSequentially(
+                                card7AnimRV,
+                                card6AnimRV,
+                                card5AnimRV,
+                                card3AnimRV,
+                                card1AnimRV
+                            )
+                            playerAnimator.start()
+                        }
+                        6 -> {
+                            val playerAnimator = AnimatorSet()
+                            playerAnimator.playSequentially(
+                                card8AnimRV,
+                                card7AnimRV,
+                                card6AnimRV,
+                                card5AnimRV,
+                                card3AnimRV,
+                                card1AnimRV
+                            )
+                            playerAnimator.start()
+                        }
+                        7 -> {
+                            val playerAnimator = AnimatorSet()
+                            playerAnimator.playSequentially(
+                                card9AnimRV,
+                                card8AnimRV,
+                                card7AnimRV,
+                                card6AnimRV,
+                                card5AnimRV,
+                                card3AnimRV,
+                                card1AnimRV
+                            )
+                            playerAnimator.start()
+                        }
+                        8 -> {
+                            val playerAnimator = AnimatorSet()
+                            playerAnimator.playSequentially(
+                                card10AnimRV,
+                                card9AnimRV,
+                                card8AnimRV,
+                                card7AnimRV,
+                                card6AnimRV,
+                                card5AnimRV,
+                                card3AnimRV,
+                                card1AnimRV
+                            )
+                            playerAnimator.start()
+                        }
+                        9 -> {
+                            val playerAnimator = AnimatorSet()
+                            playerAnimator.playSequentially(
+                                card11AnimRV,
+                                card10AnimRV,
+                                card9AnimRV,
+                                card8AnimRV,
+                                card7AnimRV,
+                                card6AnimRV,
+                                card5AnimRV,
+                                card3AnimRV,
+                                card1AnimRV
+                            )
+                            playerAnimator.start()
+                        }
+                        10 -> {
+                            val playerAnimator = AnimatorSet()
+                            playerAnimator.playSequentially(
+                                card12AnimRV,
+                                card11AnimRV,
+                                card10AnimRV,
+                                card9AnimRV,
+                                card8AnimRV,
+                                card7AnimRV,
+                                card6AnimRV,
+                                card5AnimRV,
+                                card3AnimRV,
+                                card1AnimRV
+                            )
+                            playerAnimator.start()
+                        }
+                    }
+                }
+
+                val cardRotateAnim =
+                    ObjectAnimator.ofFloat(dealerCardView2, "rotationY", -90f).apply {
+//                Primary card flip for dealer. Sets a listener so that the card image is updated, and then
+//                the flip animation continues with animateDealerCard
+                        duration = flipDuration
+                        addListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                super.onAnimationEnd(animation)
+                                updateCardImg(dealerHand, dealerCardView2, 0, 1)
+                                dealerCardView2.visibility = View.VISIBLE
+                                animateDealerCard(dealerHand, delayAnim2)
+                            }
+                        })
+                    }
+
+                val animateNextSplitCardSet = ObjectAnimator.ofFloat()
+
+                fun nextSplitCards(hN: Int) {
+                    // Removes all playercards on table
+                    //This is probably causing the index.
+                    animatePlayerCardRV(playerHand, hN, playerHand.handArray[hN - 1].size)
+//                    playerHand.initialize(hN)
+//                    playerInfoText.text =
+//                        getString(R.string.player_info_text, playerHand.handTotal[hN])
+//                    splitInfoText.text =
+//                        getString(R.string.splitting_info_text, hN+1, playerHand.handArray.size - 1)
+//                    updateCardImg(playerHand, cardView, hN, 0)
+//                    updateCardImg(playerHand, cardView2, hN, 1)
+//                    animateBothPlayerCard()
+                    playerHand.checkMove(this, hN)
+                }
+
+                fun splitButtonClick(hN: Int) {
+//                    This text seems to work
+                    splitInfoText.visibility = View.VISIBLE
+                    splitInfoText.text =
+                        getString(R.string.splitting_info_text, hN + 1, playerHand.handArray.size + 1)
+                    playerHand.splitting = true
+                    if (hN == 0) {
+                        animatePlayerCardRV(playerHand, hN, 1)
+                    } else {
+                        animatePlayerCardRV(playerHand, hN, playerHand.handArray[hN].size)
+                    }
+                    playerHand.split(deck, hN)
+                    if (hN < (playerHand.handArray.size)) {
+                        if (playerHand.moveCount[hN] > 0) {
+
+                        } else {
+                            playerHand.initialize(hN)
+                            playerInfoText.text =
+                                getString(R.string.player_info_text, playerHand.handTotal[hN])
+                            updateCardImg(playerHand, cardView, hN, 0)
+                            updateCardImg(playerHand, cardView2, hN, 1)
+                            cardView2.visibility = View.VISIBLE
+                            animatePlayerCard(playerHand, hN, false)
 
 //                            UPDATE LATER
 //                            playerHand.blackJackCheck(this,x)
@@ -1021,94 +1276,114 @@ class GameFragment : Fragment() {
 //                            playerHand.splitting = playerHand.moveCount[x] <= 0
 
 //                            while (playerHand.splitting) {
-                                playerHand.checkMove(this,hN)
+                            playerHand.checkMove(this, hN)
 //                            }
 
-                            }
                         }
+                    }
 //                    dealerHit(dealerHand,deck)
 //                    cardRotateAnim.start()
-                    }
+                }
 
 
-                    splitButton.setOnClickListener { _ ->
-                        splitButtonClick(hN)
-                    }
+                splitButton.setOnClickListener { _ ->
+                    splitButtonClick(hN)
+                }
 
-                        //                Trigger when hit button is clicked.
-                        fun hitButtonClick(hN: Int): Int {
-                            if ((playerHand.handArray.size) == 1) {
-                                playerHand.hit(deck, hN)
-                                playerHand.checkHand(this, hN)
+                // Trigger when hit button is clicked.
+                fun hitButtonClick(hN: Int): Int {
+//                    Only for non-splitting hands.
+                    if ((playerHand.handArray.size) == 1) {
+                        playerHand.hit(deck, hN)
+                        playerHand.checkHand(this, hN)
 //                    Updates the visibility of player cards and updates images
-                                addCardImg(playerHand, hN)
+                        addCardImg(playerHand, hN)
 //                    Animates the single adding of player cards
-                                animatePlayerCard(playerHand, hN, false)
+                        animatePlayerCard(playerHand, hN, false)
 //                        Occurs if bust condition. Sets dealingtable to false.
-                                if (playerHand.handTotal[hN].size == 0) {
-                                    this.dealingTable = false
-                                    dealerInfoText.text = getString(
-                                        R.string.player_busted_text,
-                                        playerHand.betArray[hN].toInt()
-                                    )
-                                    dealerInfoText.setBackgroundColor(
-                                        ContextCompat.getColor(
-                                            dealerInfoText.context,
-                                            R.color.lose_red
-                                        )
-                                    )
-                                    dealerInfoText.visibility = View.VISIBLE
-                                    playerInfoText.text =
-                                        getString(R.string.player_info_text, playerHand.handTotal2[0])
-                                    updateBalance()
-                                    resetButtons()
-                                } else {
-                                    playerInfoText.text =
-                                        getString(R.string.player_info_text, playerHand.handTotal[0])
-                                    playerHand.checkMove(this, hN)
-                                }
-                            }
-                            //when you have split at least once
-                            else {
-                                playerHand.hit(deck, hN)
-                                playerHand.checkHand(this, hN)
-                                addCardImg(playerHand, hN)
-                                animatePlayerCard(playerHand, hN, false)
-//                        Bust condition on hand
-                                if (playerHand.handTotal[hN].size == 0) {
-//                            Some sort of bust/delay animation
-//                            dealerInfoText.text = getString(
-//                                R.string.player_busted_text,
-//                                playerHand.betArray[hN].toInt()
-//                            )
-//                            dealerInfoText.setBackgroundColor(
-//                                ContextCompat.getColor(
-//                                    dealerInfoText.context,
-//                                    R.color.lose_red
-//                                )
-//                            )
-//                            dealerInfoText.visibility = View.VISIBLE
-                                    playerInfoText.text =
-                                        getString(R.string.player_info_text, playerHand.handTotal2[hN])
-                                    updateBalance()
+                        if (playerHand.handTotal[hN].size == 0) {
+                            this.dealingTable = false
+                            dealerInfoText.text = getString(
+                                R.string.player_busted_text,
+                                playerHand.betArray[hN].toInt()
+                            )
+                            dealerInfoText.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    dealerInfoText.context,
+                                    R.color.lose_red
+                                )
+                            )
+                            dealerInfoText.visibility = View.VISIBLE
+                            playerInfoText.text =
+                                getString(R.string.player_info_text, playerHand.handTotal2[0])
+                            updateBalance()
+                            resetButtons()
+                        } else {
+                            playerInfoText.text =
+                                getString(R.string.player_info_text, playerHand.handTotal[0])
+                            playerHand.checkMove(this, hN)
+                        }
+                    }
+                    //when you have split at least once
+                    else {
+                        playerHand.hit(deck, hN)
+                        addCardImg(playerHand, hN)
+                        animatePlayerCard(playerHand, hN, false)
+                        playerHand.checkHand(this, hN)
+
+//                        Bust condition on split hand
+                        if (playerHand.handTotal[hN].size == 0) {
+                            dealerInfoText.text = getString(
+                                R.string.player_busted_text_split)
+                            dealerInfoText.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    dealerInfoText.context,
+                                    R.color.lose_red
+                                )
+                            )
+                            dealerInfoText.visibility = View.VISIBLE
+                            playerInfoText.text =
+                                getString(R.string.player_info_text, playerHand.handTotal2[hN])
+                            updateBalance()
 //                            resetButtons()
-                                    return hN + 1
-                                } else {
-                                    playerInfoText.text =
-                                        getString(R.string.player_info_text, playerHand.handTotal[hN])
-                                    playerHand.checkMove(this, hN)
-                                    return hN
-                                }
-                            }
+                            return hN + 1
+                        } else {
+                            playerInfoText.text =
+                                getString(R.string.player_info_text, playerHand.handTotal[hN])
+                            playerHand.checkMove(this, hN)
                             return hN
                         }
+                    }
+                    return hN
+                }
 
-                        hitButton.setOnClickListener() { _ ->
-                            hN = hitButtonClick(hN)
-                            splitButtonClick(hN)
+                hitButton.setOnClickListener() { _ ->
+                    hN = hitButtonClick(hN)
+                    if (hN > 0) {
+                        if (hN >= (playerHand.handArray.size)) {
+                            buttonDealMode()
+                            dealerHit(dealerHand, deck)
+//                  Note: CardRotateAnim will trigger the compareTable function
+                            cardRotateAnim.start()
+                        } else if (playerHand.splitting == false) {
+                            val delayAnimSplitBust = ObjectAnimator.ofFloat(dealerCardView, View.ALPHA, 1f).apply {
+                                duration = 1000
+                                addListener(object : AnimatorListenerAdapter() {
+                                    override fun onAnimationEnd(animation: Animator?) {
+                                        super.onAnimationEnd(animation)
+                                        dealerInfoText.visibility = View.GONE
+                                        nextSplitCards(hN)
+                                        playerHand.splitting = true
+                                    }
+                                })
+                            }
+                            // TODO: Add in a delay here.
+                            delayAnimSplitBust.start()
                         }
+                    }
+                }
 
-                        doubleButton.setOnClickListener { _ ->
+                doubleButton.setOnClickListener { _ ->
 //                            Took this OUT WhiLE WORKING ON SPLIT
 //                            playerHand.double(deck, 0)
 //                            playerHand.double(deck, 0)
@@ -1141,60 +1416,58 @@ class GameFragment : Fragment() {
 //                                dealerHit(dealerHand, deck)
 ////                        Starts Animation, which leads to compareTable function.
 //                                cardRotateAnim.start()
-                            }
-//                adds and updates the image of the most recent card
-                        }
-
-                        standButton.setOnClickListener { _ ->
-                            hN +=1
-                        }
-                    }
-
-                val delayAnim2 = ObjectAnimator.ofFloat(dealerCardView, View.ALPHA, 1f).apply {
-//                    The delay animation that is added after all the dealer cards are flipped.
-//                    After it runs, it compares the table.
-                    duration = 100
-                    addListener(object: AnimatorListenerAdapter() {
-                        override fun onAnimationEnd(animation: Animator?) {
-                            super.onAnimationEnd(animation)
-                            compareTable(playerHand,dealerHand)
-                        }
-                    })
                 }
+//                adds and updates the image of the most recent card
+//                val delayAnim2 = ObjectAnimator.ofFloat(dealerCardView, View.ALPHA, 1f).apply {
+////                    The delay animation that is added after all the dealer cards are flipped.
+////                    After it runs, it compares the table.
+//                    duration = 100
+//                    addListener(object : AnimatorListenerAdapter() {
+//                        override fun onAnimationEnd(animation: Animator?) {
+//                            super.onAnimationEnd(animation)
+//                            compareTable(playerHand, dealerHand)
+//                        }
+//                    })
+//                }
+//
+//                val cardRotateAnim =
+//                    ObjectAnimator.ofFloat(dealerCardView2, "rotationY", -90f).apply {
+////                Primary card flip for dealer. Sets a listener so that the card image is updated, and then
+////                the flip animation continues with animateDealerCard
+//                        duration = flipDuration
+//                        addListener(object : AnimatorListenerAdapter() {
+//                            override fun onAnimationEnd(animation: Animator?) {
+//                                super.onAnimationEnd(animation)
+//                                updateCardImg(dealerHand, dealerCardView2, 0, 1)
+//                                dealerCardView2.visibility = View.VISIBLE
+//                                animateDealerCard(dealerHand, delayAnim2)
+//                            }
+//                        })
+//                    }
 
-                val cardRotateAnim =
-                    ObjectAnimator.ofFloat(dealerCardView2, "rotationY", -90f).apply {
-//                Primary card flip for dealer. Sets a listener so that the card image is updated, and then
-//                the flip animation continues with animateDealerCard
-                        duration = flipDuration
-                        addListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator?) {
-                                super.onAnimationEnd(animation)
-                                updateCardImg(dealerHand, dealerCardView2, 0, 1)
-                                dealerCardView2.visibility = View.VISIBLE
-                                animateDealerCard(dealerHand,delayAnim2)
-                            }
-                        })
+                standButton.setOnClickListener { _ ->
+                    hN += 1
+                    if (hN >= (playerHand.handArray.size)) {
+                        buttonDealMode()
+                        dealerHit(dealerHand, deck)
+//                  Note: CardRotateAnim will trigger the compareTable function
+                        cardRotateAnim.start()
+                    } else {
+                        nextSplitCards(hN)
                     }
-
-                buttonDealMode()
-                dealerHit(dealerHand, deck)
-//                  Note: CardRotateAnim will trigger the comparetable function
-                cardRotateAnim.start()
-
-
-
+                }
             }
-            if (balance <= 0) {
-                dealingTable = false
-            }
+
+
+        }
+        if (balance <= 0) {
+            dealingTable = false
+        }
 
 
         dealButton.setOnClickListener { _ ->
             play()
         }
-
-
 
 
 //        fun compareTable(playerHand: Hand, dealerHand: Hand) {
@@ -1292,7 +1565,6 @@ class DeckOfCards() {
 }
 
 
-
 open class Hand() {
     var handTotal = mutableListOf<MutableList<Int>>(mutableListOf<Int>())
     var handTotal2 = mutableListOf<MutableList<Int>>(mutableListOf<Int>())
@@ -1362,8 +1634,10 @@ open class Hand() {
 
 //            player.dealingTable = false
             this.splitting = false
+            player.dealingTable = false
             return
         }
+        this.splitting = true
         player.dealingTable = true
         return
     }
@@ -1371,7 +1645,6 @@ open class Hand() {
     fun initialize(hn: Int) {
 //        Takes the initial hand (player or dealer) and calculates the hand value(s),
 //        dependent on the presence of aces or not
-
         this.handTotal[hn] = mutableListOf<Int>()
 
         if ((this.handArray[hn][0].faceVal == 1) && (this.handArray[hn][1].faceVal == 1)) {
@@ -1387,7 +1660,7 @@ open class Hand() {
             this.handTotal[hn].add(this.handArray[hn][0].faceVal + this.handArray[hn][1].faceVal)
         }
 
-        for(x in this.handTotal[hn]) {
+        for (x in this.handTotal[hn]) {
             this.handTotal2[hn].add(x)
         }
     }
@@ -1430,8 +1703,7 @@ open class Hand() {
             }
         } else {
             player.doubleButton.visibility = View.GONE
-//            Should be GONE, but leaving in for testing
-            player.splitButton.visibility = View.VISIBLE
+            player.splitButton.visibility = View.GONE
             player.hitButton.visibility = View.VISIBLE
             player.standButton.visibility = View.VISIBLE
         }
