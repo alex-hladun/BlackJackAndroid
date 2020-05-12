@@ -450,6 +450,23 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/splitInfoText"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:alpha="0.2"
+        android:background="@color/default_background"
+        android:gravity="center"
+        android:text="@string/splitting_info_text"
+        android:textColor="@color/lb_details_description_color"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.26999998" />
+
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline2"
         android:layout_width="wrap_content"

@@ -26,6 +26,7 @@ class GameFragment : Fragment() {
     var animDurationRV = 100L
     var dealerAnimDuration = 400L
     var flipDuration = 125L
+    var fadeDuration = 250L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +55,7 @@ class GameFragment : Fragment() {
         val splitInfoText = view.findViewById<TextView>(R.id.splttingInfoText)
         val dealerScoretext = view.findViewById<TextView>(R.id.dealerScoreText)
         dealerScoretext.visibility = View.GONE
+        val splitInfoTextView = view.findViewById<TextView>(R.id.splitInfoText)
         val cardView = view.findViewById<ImageView>(R.id.cardView)
         val cardView2 = view.findViewById<ImageView>(R.id.cardView2)
         val cardView10 = view.findViewById<ImageView>(R.id.cardView10)
@@ -81,6 +83,8 @@ class GameFragment : Fragment() {
         val translateXAnimation = PropertyValuesHolder.ofFloat(View.TRANSLATION_X, initPlayerCardX)
         val rotateAnimation = PropertyValuesHolder.ofFloat(View.ROTATION, 0f)
         val alphaAnimation = PropertyValuesHolder.ofFloat(View.ALPHA, 1f)
+        val alphaAnimationShow = PropertyValuesHolder.ofFloat(View.ALPHA, 1f)
+        val alphaAnimationHide = PropertyValuesHolder.ofFloat(View.ALPHA, 0f)
         val translateYAnimation2 =
             PropertyValuesHolder.ofFloat(View.TRANSLATION_Y, initPlayerCardY + shiftY)
         val translateXAnimation2 =
@@ -873,10 +877,180 @@ class GameFragment : Fragment() {
             }
         }
 
+
+        val card1AnimRVSplit = ObjectAnimator.ofPropertyValuesHolder(
+            cardView,
+            translateXAnimationRV,
+            translateYAnimationRV,
+            rotateAnimationRV,
+            alphaAnimationRV
+        )
+        card1AnimRVSplit.duration = animDurationRV
+
+        card1AnimRVSplit.addListener(object : AnimatorListenerAdapter() {
+            override fun onAnimationEnd(animation: Animator?) {
+                super.onAnimationEnd(animation)
+
+            }
+        })
+
+        fun animatePlayerCardRVSplit(playerHand: Hand, hn: Int, reverseCount: Int) {
+            when (reverseCount) {
+                1 -> {
+                    val playerAnimator2 = AnimatorSet()
+                    playerAnimator2.playSequentially(card3AnimRV)
+                    playerAnimator2.start()
+                }
+                2 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(card3AnimRV, card1AnimRVSplit)
+                    playerAnimator.start()
+                }
+
+                3 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(card5AnimRV, card3AnimRV, card1AnimRVSplit)
+                    playerAnimator.start()
+                }
+                4 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(
+                        card6AnimRV,
+                        card5AnimRV,
+                        card3AnimRV,
+                        card1AnimRVSplit
+                    )
+                    playerAnimator.start()
+                }
+                5 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(
+                        card7AnimRV,
+                        card6AnimRV,
+                        card5AnimRV,
+                        card3AnimRV,
+                        card1AnimRVSplit
+                    )
+                    playerAnimator.start()
+                }
+                6 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(
+                        card8AnimRV,
+                        card7AnimRV,
+                        card6AnimRV,
+                        card5AnimRV,
+                        card3AnimRV,
+                        card1AnimRVSplit
+                    )
+                    playerAnimator.start()
+                }
+                7 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(
+                        card9AnimRV,
+                        card8AnimRV,
+                        card7AnimRV,
+                        card6AnimRV,
+                        card5AnimRV,
+                        card3AnimRV,
+                        card1AnimRVSplit
+                    )
+                    playerAnimator.start()
+                }
+                8 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(
+                        card10AnimRV,
+                        card9AnimRV,
+                        card8AnimRV,
+                        card7AnimRV,
+                        card6AnimRV,
+                        card5AnimRV,
+                        card3AnimRV,
+                        card1AnimRVSplit
+                    )
+                    playerAnimator.start()
+                }
+                9 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(
+                        card11AnimRV,
+                        card10AnimRV,
+                        card9AnimRV,
+                        card8AnimRV,
+                        card7AnimRV,
+                        card6AnimRV,
+                        card5AnimRV,
+                        card3AnimRV,
+                        card1AnimRVSplit
+                    )
+                    playerAnimator.start()
+                }
+                10 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(
+                        card12AnimRV,
+                        card11AnimRV,
+                        card10AnimRV,
+                        card9AnimRV,
+                        card8AnimRV,
+                        card7AnimRV,
+                        card6AnimRV,
+                        card5AnimRV,
+                        card3AnimRV,
+                        card1AnimRVSplit
+                    )
+                    playerAnimator.start()
+                }
+            }
+        }
+
+
         fun compareTable(playerHand: Hand, dealerHand: Hand) {
-            for (x in 0 until (playerHand.handTotal.size)) {
+            for (x in (playerHand.handTotal.size - 1) downTo 0) {
                 if (playerHand.handTotal.size > 1) {
-//                    NOT APPLICABLE UNTIL SPLIT FEATURE ADDED
+                    val delayAnim3 = ObjectAnimator.ofFloat(dealerCardView, View.ALPHA, 1f).apply {
+//                    The delay animation that is added after all the dealer cards are flipped.
+//                    After it runs, it compares the table.
+                        duration = 1000}
+
+                    val splitInfoFadeText = ObjectAnimator.ofFloat(splitInfoTextView, View.ALPHA, 0f).apply {
+//                    The delay animation that is added after all the dealer cards are flipped.
+//                    After it runs, it compares the table.
+                        duration = fadeDuration
+                        addListener(object: AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                super.onAnimationEnd(animation)
+//                                Works good to this point
+                                if (x == playerHand.handArray.size) {
+                                    animatePlayerCardRVSplit(playerHand, x, playerHand.handArray[x].size)
+                                }
+                                splitInfoText.visibility = View.GONE
+                            }
+                        })
+                    }
+
+                    val splitFirstAnimator = AnimatorSet()
+                    splitFirstAnimator.playSequentially(delayAnim3, splitInfoFadeText)
+
+//                    The ACTUAL FIRST ANIMATION THAT PLAYS
+                    splitInfoTextView.text = getString(R.string.splitting_info_text, x, playerHand.handTotal.size)
+
+                    val showSplitInfoText = ObjectAnimator.ofPropertyValuesHolder(splitInfoTextView,alphaAnimationShow).apply {
+//                        When called, shows the split hand details, then holds for splitdelay, then fades out
+                        duration = fadeDuration
+                        addListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                super.onAnimationEnd(animation)
+                                splitFirstAnimator.start()
+                            }
+
+                        })
+                    }
+                    showSplitInfoText.start()
+
+//
 //                    println("Split Hand ${x + 1} of ${playerHand.handArray.size}:")
                     if (playerHand.handTotal[x].size == 0) {
 //                        println("You busted")
@@ -1081,7 +1255,6 @@ class GameFragment : Fragment() {
                 //            Reverse-Animate the single card that needs to be added to the player hand.
                 card1AnimRV.addListener(object : AnimatorListenerAdapter() {
                     override fun onAnimationEnd(animation: Animator?) {
-                        // TODO: Figure out why this is crashing it every time
                         playerHand.initialize(hN)
                         playerInfoText.text =
                             getString(R.string.player_info_text, playerHand.handTotal[hN])
@@ -1098,7 +1271,6 @@ class GameFragment : Fragment() {
                 })
 
                 fun animatePlayerCardRV(playerHand: Hand, hn: Int, reverseCount: Int) {
-
                     when (reverseCount) {
                         1 -> {
                             val playerAnimator2 = AnimatorSet()
@@ -1229,21 +1401,11 @@ class GameFragment : Fragment() {
 
                 fun nextSplitCards(hN: Int) {
                     // Removes all playercards on table
-                    //This is probably causing the index.
                     animatePlayerCardRV(playerHand, hN, playerHand.handArray[hN - 1].size)
-//                    playerHand.initialize(hN)
-//                    playerInfoText.text =
-//                        getString(R.string.player_info_text, playerHand.handTotal[hN])
-//                    splitInfoText.text =
-//                        getString(R.string.splitting_info_text, hN+1, playerHand.handArray.size - 1)
-//                    updateCardImg(playerHand, cardView, hN, 0)
-//                    updateCardImg(playerHand, cardView2, hN, 1)
-//                    animateBothPlayerCard()
                     playerHand.checkMove(this, hN)
                 }
 
                 fun splitButtonClick(hN: Int) {
-//                    This text seems to work
                     splitInfoText.visibility = View.VISIBLE
                     splitInfoText.text =
                         getString(
@@ -1490,33 +1652,6 @@ class GameFragment : Fragment() {
                     }
 
                 }
-//                adds and updates the image of the most recent card
-//                val delayAnim2 = ObjectAnimator.ofFloat(dealerCardView, View.ALPHA, 1f).apply {
-////                    The delay animation that is added after all the dealer cards are flipped.
-////                    After it runs, it compares the table.
-//                    duration = 100
-//                    addListener(object : AnimatorListenerAdapter() {
-//                        override fun onAnimationEnd(animation: Animator?) {
-//                            super.onAnimationEnd(animation)
-//                            compareTable(playerHand, dealerHand)
-//                        }
-//                    })
-//                }
-//
-//                val cardRotateAnim =
-//                    ObjectAnimator.ofFloat(dealerCardView2, "rotationY", -90f).apply {
-////                Primary card flip for dealer. Sets a listener so that the card image is updated, and then
-////                the flip animation continues with animateDealerCard
-//                        duration = flipDuration
-//                        addListener(object : AnimatorListenerAdapter() {
-//                            override fun onAnimationEnd(animation: Animator?) {
-//                                super.onAnimationEnd(animation)
-//                                updateCardImg(dealerHand, dealerCardView2, 0, 1)
-//                                dealerCardView2.visibility = View.VISIBLE
-//                                animateDealerCard(dealerHand, delayAnim2)
-//                            }
-//                        })
-//                    }
 
                 standButton.setOnClickListener { _ ->
                     hN += 1
