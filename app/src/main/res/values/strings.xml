@@ -38,12 +38,12 @@
     <string name="dealer_info_text">Dealer: %1$s</string>
     <string name="player_info_text">"%1$s"</string>
     <string name="player_busted_text">"You lose $%1$d!"</string>
-    <string name="player_busted_text_split">"Busted!"</string>
     <string name="player_win_text">"You win $%1$d!"</string>
     <string name="player_compare_win_text">"You Win $%1$d!"</string>
     <string name="player_tie_text">"Tie!"</string>
     <string name="dealer_win_text">"You lose $%1$d!"</string>
     <string name="dealer_score_text">"%1$s"</string>
     <string name="splitting_info_text">Split hand %1$d of %2$d:</string>
+    <string name="player_busted_text_split">Busted!</string>
 
 </resources>
