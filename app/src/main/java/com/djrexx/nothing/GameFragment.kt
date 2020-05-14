@@ -27,6 +27,7 @@ class GameFragment : Fragment() {
     var dealerAnimDuration = 400L
     var flipDuration = 125L
     var fadeDuration = 250L
+    var splitHoldDuration = 3000L
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -650,6 +651,17 @@ class GameFragment : Fragment() {
             splitInfoText.visibility = View.GONE
         }
 
+        fun hideButtonsBust() {
+            dealButton.visibility = View.GONE
+            negBetButton.visibility = View.GONE
+            posBetButton.visibility = View.GONE
+            splitButton.visibility = View.GONE
+            doubleButton.visibility = View.GONE
+            hitButton.visibility = View.GONE
+            standButton.visibility = View.GONE
+            splitInfoText.visibility = View.GONE
+        }
+
         fun buttonDealMode() {
 //            runs after the player hits stand
             splitButton.visibility = View.GONE
@@ -894,6 +906,58 @@ class GameFragment : Fragment() {
             }
         })
 
+        fun animateAllPlayerCards(playerHand: Hand, hn: Int) {
+//            Animates all cards being dealt to the player cards.
+            var playerCardCount = playerHand.handArray[hn].size
+            when (playerCardCount) {
+                2 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(card1Anim, card3Anim)
+                    playerAnimator.start()
+                }
+                3 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(card1Anim, card3Anim, card5Anim)
+                    playerAnimator.start()
+                }
+                4 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(card1Anim, card3Anim, card5Anim, card6Anim)
+                    playerAnimator.start()
+                }
+                5 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(card1Anim, card3Anim, card5Anim, card6Anim, card7Anim)
+                    playerAnimator.start()
+                }
+                6 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(card1Anim, card3Anim, card5Anim, card6Anim, card7Anim, card8Anim)
+                    playerAnimator.start()
+                }
+                7 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(card1Anim, card3Anim, card5Anim, card6Anim, card7Anim, card8Anim, card9Anim)
+                    playerAnimator.start()
+                }
+                8 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(card1Anim, card3Anim, card5Anim, card6Anim, card7Anim, card8Anim, card9Anim, card10Anim)
+                    playerAnimator.start()
+                }
+                9 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(card1Anim, card3Anim, card5Anim, card6Anim, card7Anim, card8Anim, card9Anim, card10Anim, card11Anim)
+                    playerAnimator.start()
+                }
+                10 -> {
+                    val playerAnimator = AnimatorSet()
+                    playerAnimator.playSequentially(card1Anim, card3Anim, card5Anim, card6Anim, card7Anim, card8Anim, card9Anim, card10Anim, card11Anim, card12Anim)
+                    playerAnimator.start()
+                }
+            }
+        }
+
         fun animatePlayerCardRVSplit(playerHand: Hand, hn: Int, reverseCount: Int) {
             when (reverseCount) {
                 1 -> {
@@ -1008,62 +1072,32 @@ class GameFragment : Fragment() {
 
 
         fun compareTable(playerHand: Hand, dealerHand: Hand) {
-            for (x in (playerHand.handTotal.size - 1) downTo 0) {
-                if (playerHand.handTotal.size > 1) {
-                    val delayAnim3 = ObjectAnimator.ofFloat(dealerCardView, View.ALPHA, 1f).apply {
-//                    The delay animation that is added after all the dealer cards are flipped.
-//                    After it runs, it compares the table.
-                        duration = 1000}
-
-                    val splitInfoFadeText = ObjectAnimator.ofFloat(splitInfoTextView, View.ALPHA, 0f).apply {
-//                    The delay animation that is added after all the dealer cards are flipped.
-//                    After it runs, it compares the table.
-                        duration = fadeDuration
-                        addListener(object: AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator?) {
-                                super.onAnimationEnd(animation)
-//                                Works good to this point
-                                if (x == playerHand.handArray.size) {
-                                    animatePlayerCardRVSplit(playerHand, x, playerHand.handArray[x].size)
-                                }
-                                splitInfoText.visibility = View.GONE
-                            }
-                        })
-                    }
-
-                    val splitFirstAnimator = AnimatorSet()
-                    splitFirstAnimator.playSequentially(delayAnim3, splitInfoFadeText)
-
-//                    The ACTUAL FIRST ANIMATION THAT PLAYS
-                    splitInfoTextView.text = getString(R.string.splitting_info_text, x, playerHand.handTotal.size)
-
-                    val showSplitInfoText = ObjectAnimator.ofPropertyValuesHolder(splitInfoTextView,alphaAnimationShow).apply {
-//                        When called, shows the split hand details, then holds for splitdelay, then fades out
-                        duration = fadeDuration
-                        addListener(object : AnimatorListenerAdapter() {
-                            override fun onAnimationEnd(animation: Animator?) {
-                                super.onAnimationEnd(animation)
-                                splitFirstAnimator.start()
-                            }
-
-                        })
-                    }
-                    showSplitInfoText.start()
-
-//
-//                    println("Split Hand ${x + 1} of ${playerHand.handArray.size}:")
-                    if (playerHand.handTotal[x].size == 0) {
-//                        println("You busted")
-                        continue
-                    }
-                    if (playerHand.moveCount[x] == 21) {
-//                        println("You got a BlackJack!!!")
-                        continue
-                    }
+            fun compareHand(x: Int) {
+//                updates the players score and shows win/lose/tie banner.
+                if (playerHand.handTotal[x].size == 0) {
+                  dealerInfoText.text = getString(
+                                R.string.player_busted_text,
+                                playerHand.betArray[x].toInt()
+                            )
+                            dealerInfoText.setBackgroundColor(
+                                ContextCompat.getColor(
+                                    dealerInfoText.context,
+                                    R.color.lose_red
+                                )
+                            )
+                            dealerInfoText.visibility = View.VISIBLE
+                            playerInfoText.text =
+                                getString(R.string.player_info_text, playerHand.handTotal2[x])
+                            updateBalance()
+                } else if (playerHand.moveCount[x] == 21) {
+                        getString(R.string.player_info_text, playerHand.handTotal[x])
                 }
-                if (dealerHand.dealerbust) {
+
+                else if (dealerHand.dealerbust) {
 //                    Adding next two lines to display dealers hand total
                     dealerScoretext.visibility = View.VISIBLE
+                    playerInfoText.text =
+                        getString(R.string.player_info_text, playerHand.handTotal[x])
                     dealerScoretext.text =
                         getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
                     dealerInfoText.text =
@@ -1078,14 +1112,14 @@ class GameFragment : Fragment() {
                     this.balance += playerHand.betArray[x].toInt()
                     updateBalance()
                     resetButtons()
-                    continue
                 }
-                if (playerHand.handTotal[x].max()!! > dealerHand.handTotal[0].max()!!) {
+                else if (playerHand.handTotal[x].max()!! > dealerHand.handTotal[0].max()!!) {
 //                    Adding next two lines to display dealers hand total
+                    playerInfoText.text =
+                        getString(R.string.player_info_text, playerHand.handTotal[x])
                     dealerScoretext.visibility = View.VISIBLE
                     dealerScoretext.text =
                         getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
-
 
                     dealerInfoText.text = getString(
                         R.string.player_compare_win_text, playerHand.betArray[x].toInt()
@@ -1099,10 +1133,11 @@ class GameFragment : Fragment() {
                     dealerInfoText.visibility = View.VISIBLE
                     this.balance += playerHand.betArray[x].toInt()
                     updateBalance()
-                    resetButtons()
-                    continue
+//                    resetButtons()
                 } else if (playerHand.handTotal[x].max() == dealerHand.handTotal[0].max()) {
                     //   Adding next two lines to display dealers hand total
+                    playerInfoText.text =
+                        getString(R.string.player_info_text, playerHand.handTotal[x])
                     dealerScoretext.visibility = View.VISIBLE
                     dealerScoretext.text =
                         getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
@@ -1117,10 +1152,11 @@ class GameFragment : Fragment() {
                     )
                     dealerInfoText.visibility = View.VISIBLE
                     updateBalance()
-                    resetButtons()
-                    continue
+//                    resetButtons()
                 } else {
                     // Adding next two lines to display dealers hand total
+                    playerInfoText.text =
+                        getString(R.string.player_info_text, playerHand.handTotal[x])
                     dealerScoretext.visibility = View.VISIBLE
                     dealerScoretext.text =
                         getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
@@ -1136,12 +1172,254 @@ class GameFragment : Fragment() {
                     dealerInfoText.visibility = View.VISIBLE
                     this.balance -= playerHand.betArray[x].toInt()
                     updateBalance()
-                    resetButtons()
-                    continue
+//                    resetButtons()
                 }
             }
-            this.dealingTable = false
-            return
+
+//            for (x in (playerHand.handTotal.size - 1) downTo 0) {
+                var y = playerHand.handTotal.size - 1
+                if (playerHand.handTotal.size > 1) {
+                    val delayAnim4 = ObjectAnimator.ofFloat(dealerCardView, View.ALPHA, 1f).apply {
+                        duration = splitHoldDuration}
+
+//                    Animation Callback 7 (Last One)
+                    val splitInfoFadeText4 = ObjectAnimator.ofFloat(splitInfoTextView, View.ALPHA, 0f).apply {
+//                    Fades the split text to 0.
+                        duration = fadeDuration
+                        addListener(object: AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                super.onAnimationEnd(animation)
+                                y -= 1
+//                                Run all these, even if split 5 times.
+                                splitInfoText.visibility = View.GONE
+                                dealerInfoText.visibility = View.GONE
+                                updateBalance()
+                                resetButtons()
+
+                            }
+                        })
+                    }
+
+                    val fourthSplitAnimator = AnimatorSet()
+                    fourthSplitAnimator.playSequentially(delayAnim4, splitInfoFadeText4)
+
+//                    Animation callback 8
+                    val showSplitInfoText4 = ObjectAnimator.ofPropertyValuesHolder(splitInfoTextView,alphaAnimationShow).apply {
+                        duration = fadeDuration
+                        addListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                super.onAnimationEnd(animation)
+                                splitInfoTextView.text = getString(R.string.splitting_info_text, y+1, playerHand.handTotal.size)
+                                compareHand(y)
+                                fourthSplitAnimator.start()
+                            }
+                        })
+                    }
+
+//                    Animation Callback 6
+                    val splitInfoFadeText3 = ObjectAnimator.ofFloat(splitInfoTextView, View.ALPHA, 0f).apply {
+//                    Fades the split text to 0.
+                        duration = fadeDuration
+                        addListener(object: AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                super.onAnimationEnd(animation)
+                                y -= 1
+                                if (y >= 0) {
+                                    splitInfoText.visibility = View.GONE
+                                    dealerInfoText.visibility = View.GONE
+                                    showSplitInfoText4.start()
+                                } else {
+                                    updateBalance()
+                                    resetButtons()
+                                }
+                            }
+                        })
+                    }
+
+                    val thirdSplitAnimator = AnimatorSet()
+                    thirdSplitAnimator.playSequentially(delayAnim4, splitInfoFadeText3)
+
+//                    Animation callback 5
+                    val showSplitInfoText3 = ObjectAnimator.ofPropertyValuesHolder(splitInfoTextView,alphaAnimationShow).apply {
+                        duration = fadeDuration
+                        addListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                super.onAnimationEnd(animation)
+                                splitInfoTextView.text = getString(R.string.splitting_info_text, y+1, playerHand.handTotal.size)
+                                compareHand(y)
+                                thirdSplitAnimator.start()
+                            }
+                        })
+                    }
+
+//                    Animation callback 4
+                    val splitInfoFadeText2 = ObjectAnimator.ofFloat(splitInfoTextView, View.ALPHA, 0f).apply {
+//                    Fades the split text to 0.
+                        duration = fadeDuration
+                        addListener(object: AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                super.onAnimationEnd(animation)
+                                y -= 1
+                                if (y >= 0) {
+                                    splitInfoText.visibility = View.GONE
+                                    dealerInfoText.visibility = View.GONE
+                                    showSplitInfoText3.start()
+                                } else {
+                                    updateBalance()
+                                    resetButtons()
+                                }
+                            }
+                        })
+                    }
+
+                    val splitSecondAnimator = AnimatorSet()
+                    splitSecondAnimator.playSequentially(delayAnim4, splitInfoFadeText2)
+
+//                    Animation callback 3
+                    val showSplitInfoText2 = ObjectAnimator.ofPropertyValuesHolder(splitInfoTextView,alphaAnimationShow).apply {
+
+                        duration = fadeDuration
+                        addListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                super.onAnimationEnd(animation)
+                                splitInfoTextView.text = getString(R.string.splitting_info_text, y+1, playerHand.handTotal.size)
+                                compareHand(y)
+                                splitSecondAnimator.start()
+                            }
+                        })
+                    }
+                    val delayAnim3 = ObjectAnimator.ofFloat(dealerCardView, View.ALPHA, 1f).apply {
+//                    The delay animation that is added after all the dealer cards are flipped.
+//                    After it runs, it compares the table.
+                        duration = splitHoldDuration}
+
+//                    Animation Callback 2
+                    val splitInfoFadeText = ObjectAnimator.ofFloat(splitInfoTextView, View.ALPHA, 0f).apply {
+//                    The delay animation that is added after all the dealer cards are flipped.
+//                    After it runs, it compares the table.
+                        duration = fadeDuration
+                        addListener(object: AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                super.onAnimationEnd(animation)
+//                                Works good to this point
+                                if (y == playerHand.handArray.size - 1) {
+                                    animatePlayerCardRVSplit(playerHand, y, playerHand.handArray[y].size)
+                                }
+                                updateCardImg(playerHand, cardView, y - 1, 0)
+                                updateCardImg(playerHand, cardView3, y - 1, 1)
+                                animateAllPlayerCards(playerHand, y)
+                                splitInfoText.visibility = View.GONE
+                                dealerInfoText.visibility = View.GONE
+//                                Add delay (1 sec), update scores, fade in 2, update split info, fade out
+                                y -= 1
+                                if (y >= 0) {
+                                    showSplitInfoText2.start()
+                                }
+                            }
+                        })
+                    }
+
+                    val splitFirstAnimator = AnimatorSet()
+                    splitFirstAnimator.playSequentially(delayAnim3, splitInfoFadeText)
+
+                    splitInfoTextView.text = getString(R.string.splitting_info_text, y+1, playerHand.handTotal.size)
+//                    ANIMATION 1
+                    val showSplitInfoText = ObjectAnimator.ofPropertyValuesHolder(splitInfoTextView,alphaAnimationShow).apply {
+//                        When called, shows the split hand details, then holds for splitdelay, then fades out
+                        duration = fadeDuration
+                        addListener(object : AnimatorListenerAdapter() {
+                            override fun onAnimationEnd(animation: Animator?) {
+                                super.onAnimationEnd(animation)
+                                compareHand(y)
+                                splitFirstAnimator.start()
+                            }
+                        })
+                    }
+//                    Start ANimation 1
+                    splitInfoText.visibility = View.GONE
+                    showSplitInfoText.start()
+
+                } else {
+//                    This all runs if you haven't split
+                    if (dealerHand.dealerbust) {
+//                    Adding next two lines to display dealers hand total
+                        dealerScoretext.visibility = View.VISIBLE
+                        dealerScoretext.text =
+                            getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
+                        dealerInfoText.text =
+                            getString(R.string.player_win_text, playerHand.betArray[y].toInt())
+                        dealerInfoText.setBackgroundColor(
+                            ContextCompat.getColor(
+                                dealerInfoText.context,
+                                R.color.win_green
+                            )
+                        )
+                        dealerInfoText.visibility = View.VISIBLE
+                        this.balance += playerHand.betArray[y].toInt()
+                        updateBalance()
+                        resetButtons()
+                    }
+                    else if (playerHand.handTotal[y].max()!! > dealerHand.handTotal[0].max()!!) {
+//                    Adding next two lines to display dealers hand total
+                        dealerScoretext.visibility = View.VISIBLE
+                        dealerScoretext.text =
+                            getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
+
+
+                        dealerInfoText.text = getString(
+                            R.string.player_compare_win_text, playerHand.betArray[y].toInt()
+                        )
+                        dealerInfoText.setBackgroundColor(
+                            ContextCompat.getColor(
+                                dealerInfoText.context,
+                                R.color.win_green
+                            )
+                        )
+                        dealerInfoText.visibility = View.VISIBLE
+                        this.balance += playerHand.betArray[y].toInt()
+                        updateBalance()
+                        resetButtons()
+                    } else if (playerHand.handTotal[y].max() == dealerHand.handTotal[0].max()) {
+                        //   Adding next two lines to display dealers hand total
+                        dealerScoretext.visibility = View.VISIBLE
+                        dealerScoretext.text =
+                            getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
+                        dealerInfoText.text = getString(
+                            R.string.player_tie_text
+                        )
+                        dealerInfoText.setBackgroundColor(
+                            ContextCompat.getColor(
+                                dealerInfoText.context,
+                                R.color.tie_yellow
+                            )
+                        )
+                        dealerInfoText.visibility = View.VISIBLE
+                        updateBalance()
+                        resetButtons()
+                    } else {
+                        // Adding next two lines to display dealers hand total
+                        dealerScoretext.visibility = View.VISIBLE
+                        dealerScoretext.text =
+                            getString(R.string.dealer_score_text, dealerHand.handTotal2[0])
+                        dealerInfoText.text = getString(
+                            R.string.dealer_win_text, playerHand.betArray[y].toInt()
+                        )
+                        dealerInfoText.setBackgroundColor(
+                            ContextCompat.getColor(
+                                dealerInfoText.context,
+                                R.color.lose_red
+                            )
+                        )
+                        dealerInfoText.visibility = View.VISIBLE
+                        this.balance -= playerHand.betArray[y].toInt()
+                        updateBalance()
+                        resetButtons()
+                    }
+                }
+                this.dealingTable = false
+                return
+//                }
+
         }
 
         fun dealerHit(dealerHand: Hand, deck: MutableList<Card>) {
@@ -1176,15 +1454,6 @@ class GameFragment : Fragment() {
             }
         }
 
-        fun animateSplit() {
-//            sequenceAnimator.reverse()
-//            sequenceAnimator.start()
-        }
-
-        fun splitBetting(playerHand: Hand, deck: MutableList<Card>) {
-
-        }
-
 
         fun play() {
             hideButtons()
@@ -1193,6 +1462,7 @@ class GameFragment : Fragment() {
             val playerHand = Hand()
             playerHand.betArray.add(bet.toFloat())
             val dealerHand = Hand()
+//            This is used to track whether splitting or not
             var hN = 0
             playerHand.hit(deck, 0)
             dealerHand.hit(deck, 0)
@@ -1241,7 +1511,6 @@ class GameFragment : Fragment() {
                         }
                     })
                 }
-
 
                 val card1AnimRV = ObjectAnimator.ofPropertyValuesHolder(
                     cardView,
@@ -1459,6 +1728,7 @@ class GameFragment : Fragment() {
 //                    Only for non-splitting hands.
                     if ((playerHand.handArray.size) == 1) {
                         playerHand.hit(deck, hN)
+//                        Calculates player hand score
                         playerHand.checkHand(this, hN)
 //                    Updates the visibility of player cards and updates images
                         addCardImg(playerHand, hN)
@@ -1481,7 +1751,7 @@ class GameFragment : Fragment() {
                             playerInfoText.text =
                                 getString(R.string.player_info_text, playerHand.handTotal2[0])
                             updateBalance()
-                            resetButtons()
+                            hideButtons()
                         } else {
                             playerInfoText.text =
                                 getString(R.string.player_info_text, playerHand.handTotal[0])
@@ -1510,7 +1780,7 @@ class GameFragment : Fragment() {
                             playerInfoText.text =
                                 getString(R.string.player_info_text, playerHand.handTotal2[hN])
                             updateBalance()
-//                            resetButtons()
+                            hideButtonsBust()
                             return hN + 1
                         } else {
                             playerInfoText.text =
@@ -1935,7 +2205,6 @@ open class Hand() {
             for (x in handTotal) {
                 this.handTotal[0].add(x)
             }
-//            println("Dealer hand total is ${this.handTotal[0]}")
             this.dealing = true
             this.dealerbust = false
         }
